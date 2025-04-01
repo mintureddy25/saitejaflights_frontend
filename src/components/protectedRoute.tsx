@@ -17,7 +17,7 @@ const ProtectedRoute = () => {
  console.log('User in ProtectedRoute:', user);
 
   // If no user is authenticated, redirect to the /auth page
-  if (!user || !accessToken) {
+  if (!user) {
     return <Navigate to="/auth" replace />;
   }
 
