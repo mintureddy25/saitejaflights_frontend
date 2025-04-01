@@ -33,6 +33,7 @@ const NavBar = () => {
     try {
       await supabase.auth.signOut(); 
       dispatch(clearUser()); 
+      localStorage.removeItem('access_token');
       navigate('/auth');
     } catch (error) {
       console.error("Error logging out: ", error);
