@@ -37,6 +37,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session?.user) {
         dispatch(setUser(session.user));
+        if (session?.access_token) {
+          localStorage.setItem('access_token', session.access_token);
+        } 
+
       } else {
         dispatch(setUser(null));
       }
