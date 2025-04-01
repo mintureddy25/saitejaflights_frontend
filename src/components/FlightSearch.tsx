@@ -10,30 +10,29 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Calendar as CalendarComponent } from '@/components/ui/calendar';
 import { format } from 'date-fns';
 import { motion } from 'framer-motion';
-import { createClient } from '@supabase/supabase-js';
 import { supabase } from '@/services/supabase';
-
-
+import { useToast } from '@/hooks/use-toast';
 
 type TripType = 'roundTrip' | 'oneWay';
 
 const FlightSearch = () => {
   const navigate = useNavigate();
   const [tripType, setTripType] = useState<TripType>('roundTrip');
-  const [origin, setOrigin] = useState('');
-  const [destination, setDestination] = useState('');
+  const [origin, setOrigin] = useState<string | null>(null); // Changed to store airport id
+  const [destination, setDestination] = useState<string | null>(null); // Changed to store airport id
   const [departureDate, setDepartureDate] = useState<Date | undefined>(undefined);
   const [returnDate, setReturnDate] = useState<Date | undefined>(undefined);
   const [passengers, setPassengers] = useState(1);
   const [cabinClass, setCabinClass] = useState('economy');
   const [airports, setAirports] = useState<any[]>([]); // State to store airport data
+  const { toast } = useToast();
 
   // Fetch airport data from Supabase
   useEffect(() => {
     async function fetchAirports() {
       const { data, error } = await supabase
         .from('airports') // Replace with your actual table name
-        .select('name, code');
+        .select('id, name, code');
       
       if (error) {
         console.error('Error fetching airports:', error);
@@ -48,11 +47,43 @@ const FlightSearch = () => {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
+    // Validation: Origin and Destination must not be the same
+    if (origin === destination) {
+      
+      toast({
+        title: "Error",
+        description: `Origin and Destination cannot be the same.`,
+        variant: "destructive"
+      });
+      return;
+    }
+    console.log(tripType,"trip type");
+
+    // Validation: Both Departure and Return dates must be selected (for round trip)
+    if (tripType === 'roundTrip' && (!departureDate || !returnDate)) {
+      toast({
+        title: "Error",
+        description: `select both departure and return dates`,
+        variant: "destructive"
+      });
+      return;
+    }
+
+    if (!departureDate) {
+      toast({
+        title: "Error",
+        description: `Please select the departure date`,
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Prepare search parameters
     const searchParams = new URLSearchParams({
       tripType,
-      origin,
-      destination,
+      origin: origin?.toString() || '',
+      destination: destination?.toString() || '',
       departureDate: departureDate ? format(departureDate, 'yyyy-MM-dd') : '',
       returnDate: returnDate ? format(returnDate, 'yyyy-MM-dd') : '',
       passengers: passengers.toString(),
@@ -97,13 +128,13 @@ const FlightSearch = () => {
                 </div>
                 <select 
                   className="pl-10 h-12 w-full"
-                  value={origin}
+                  value={origin || ''}
                   onChange={(e) => setOrigin(e.target.value)}
                   required
                 >
                   <option value="" disabled>Select Origin</option>
                   {airports.map((airport) => (
-                    <option key={airport.code} value={airport.code}>
+                    <option key={airport.id} value={airport.id}>
                       {airport.name}
                     </option>
                   ))}
@@ -117,13 +148,13 @@ const FlightSearch = () => {
                 </div>
                 <select 
                   className="pl-10 h-12 w-full"
-                  value={destination}
+                  value={destination || ''}
                   onChange={(e) => setDestination(e.target.value)}
                   required
                 >
                   <option value="" disabled>Select Destination</option>
                   {airports.map((airport) => (
-                    <option key={airport.code} value={airport.code}>
+                    <option key={airport.id} value={airport.id}>
                       {airport.name}
                     </option>
                   ))}

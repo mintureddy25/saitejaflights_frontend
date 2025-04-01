@@ -70,11 +70,11 @@ const Footer = () => {
             <ul className="space-y-2">
               <li className="flex items-center text-sm text-muted-foreground">
                 <Mail size={16} className="mr-2" />
-                info@SaiTeja.com
+                flights@saiteja.online
               </li>
               <li className="flex items-center text-sm text-muted-foreground">
                 <Phone size={16} className="mr-2" />
-                +1 (555) 123-4567
+                +91 9618723711
               </li>
             </ul>
           </div>

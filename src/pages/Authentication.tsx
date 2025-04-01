@@ -10,6 +10,9 @@ import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
+import { supabase } from '@/services/supabase';
+import { log } from 'console';
+import { useToast } from '@/hooks/use-toast';
 
 const Authentication = () => {
   const location = useLocation();
@@ -22,6 +25,7 @@ const Authentication = () => {
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const {toast} = useToast();
   
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -31,30 +35,78 @@ const Authentication = () => {
     }
   }, [location.search]);
   
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate login process
-    setTimeout(() => {
-      setIsSubmitting(false);
-      // In a real app, we would handle authentication with Supabase here
-      navigate('/');
-    }, 1500);
-  };
+    // Await the login function to ensure it finishes before continuing
+    const res = await login(email, password);
   
-  const handleRegister = (e: React.FormEvent) => {
+    if (res?.error) {
+      console.error('Error signing in:', res.error.message);
+    } else {
+      console.log('Logged in user:', res);
+    }
+  };
+
+  const login = async (email: string, password: string) => {
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+  
+    if (error) {
+      return { error };
+    } else {
+       navigate('/')
+       console.log("logged in"); // Return the user object or any other data you need
+    }
+  };
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate registration process
-    setTimeout(() => {
-      setIsSubmitting(false);
-      // In a real app, we would handle registration with Supabase here
+    //setErrorMessage('');
+
+    try {
+      // Sign up user using Supabase auth
+      const { error } = await supabase.auth.signUp(
+        {
+          email,
+          password,
+          options:{ data:{fullName}}
+        },
+      
+       
+      );
+
+      if (error) {
+        throw error; // If there's an error, throw it to handle
+      }
+
+      // console.log('User registered successfully:');
+      // const { error: updateError } = await supabase.auth.updateUser({
+      //   data: { display_name: fullName }
+      // });
+
+      // if (updateError) {
+      //   throw updateError; 
+      // }
+
+      toast({
+        title: "Account created",
+        description: "Confirm the email and login",
+      });
+
+      
+      // After successful registration, switch to the login tab
       setActiveTab('login');
-    }, 1500);
+    } catch (error: any) {
+      console.error('Registration error:', error.message);
+      //setErrorMessage(error.message);  // Set error message for UI feedback
+    } finally {
+      setIsSubmitting(false);
+    }
   };
-  
   return (
     <div className="min-h-screen flex flex-col">
       <NavBar />
