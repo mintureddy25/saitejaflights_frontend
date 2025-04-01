@@ -10,6 +10,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const dispatch = useDispatch();
   const userFromState = useSelector((state: RootState) => state.auth.user);
   const [loading, setLoading] = useState(true);
+  const [accessToken, setAccessToken] = useState('');
 
   useEffect(() => {
     if (userFromState) {
@@ -25,6 +26,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }// Specify the HTTP method
         if (session?.access_token) {
           localStorage.setItem('access_token', session.access_token);
+          setAccessToken(session.access_token);
+
         }        
       } catch (error) {
         console.error('Error fetching session:', error);
@@ -39,6 +42,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         dispatch(setUser(session.user));
         if (session?.access_token) {
           localStorage.setItem('access_token', session.access_token);
+          setAccessToken(session.access_token);
         } 
 
       } else {
@@ -56,7 +60,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user: userFromState }}>
+    <AuthContext.Provider value={{ user: userFromState , accessToken: accessToken}}>
       {children}
     </AuthContext.Provider>
   );

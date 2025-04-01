@@ -13,11 +13,11 @@ const ProtectedRoute = () => {
     return <div>Loading...</div>;
   }
 
-  const { user } = authContext;
+  const { user ,accessToken } = authContext;
  console.log('User in ProtectedRoute:', user);
 
   // If no user is authenticated, redirect to the /auth page
-  if (!user) {
+  if (!user || accessToken) {
     return <Navigate to="/auth" replace />;
   }
 
