@@ -1,69 +1,104 @@
-# Welcome to your Lovable project
+# Flight Booking System
 
-## Project info
+An online flight booking platform available at [flights.saiteja.online](https://flights.saiteja.online)
 
-**URL**: https://lovable.dev/projects/d0a3b196-01c7-4388-9649-d5abb01baf38
+## Overview
 
-## How can I edit this code?
+This application allows users to search for flights, create accounts, make bookings, and receive confirmation emails. The system is built with a comprehensive database design to handle passengers, bookings, flights, trips, airports, and airlines information.
 
-There are several ways of editing your application.
+## Live Demo
 
-**Use Lovable**
+The application is deployed on Vercel and accessible at:
+https://flights.saiteja.online
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/d0a3b196-01c7-4388-9649-d5abb01baf38) and start prompting.
+## Getting Started
 
-Changes made via Lovable will be committed automatically to this repo.
+### Prerequisites
 
-**Use your preferred IDE**
+- Node.js (v14 or higher)
+- npm or yarn
+- Supabase account
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Installation
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/mintureddy25/saitejaflights_frontend
+   cd flight-booking-system
+   ```
 
-Follow these steps:
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+3. Set up environment variables:
+   - Copy the `.env.example` file to create a new `.env` file
+   ```bash
+   cp .env.example .env
+   ```
+   - Fill in the required environment variables with your Supabase credentials and other configuration settings
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+### Database Setup
 
-# Step 3: Install the necessary dependencies.
-npm i
+1. Create a Supabase account at [supabase.com](https://supabase.com)
+2. Create a new project
+3. Set up the database tables according to the schema shown in the database design image below:
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+![Database Schema](https://toleram.s3.ap-south-1.amazonaws.com/toleram/supabase-schema-jzrisvwferxhpijyiqcr.png)
+
+## Features
+
+- User authentication (login/signup)
+- Flight search with filters
+- Booking management
+- Email confirmation system
+- User dashboard to view bookings
+
+## Usage
+
+1. Register for an account or log in
+2. Search for flights by selecting origin, destination, dates, and passenger count
+3. Select a flight from the search results
+4. Complete the booking process by providing passenger details and payment information
+5. Receive a confirmation email once the booking is completed
+6. View your bookings in the user dashboard
+
+## Technical Stack
+
+- Frontend: Vite + React
+- Backend: Supabase Functions
+- Database: PostgreSQL (via Supabase)
+- Authentication: Supabase Auth
+- Hosting: Vercel
+
+## Development
+
+To run the project locally:
+
+```bash
 npm run dev
+# or
+yarn dev
 ```
 
-**Edit a file directly in GitHub**
+The application will be available at http://localhost:5173 (default Vite port)
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Deployment
 
-**Use GitHub Codespaces**
+This project is configured for deployment on Vercel. To deploy your own instance:
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+1. Push your code to GitHub
+2. Connect your repository to Vercel
+3. Configure the environment variables
+4. Deploy
 
-## What technologies are used for this project?
+## Contributing
 
-This project is built with .
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## License
 
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/d0a3b196-01c7-4388-9649-d5abb01baf38) and click on Share -> Publish.
-
-## I want to use a custom domain - is that possible?
-
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+[License information]

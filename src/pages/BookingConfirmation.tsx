@@ -12,6 +12,8 @@ import { Plane, Calendar, Clock, CreditCard, User, Check, ChevronRight, Loader2,
 import { supabase } from "@/services/supabase";
 import { calculateDuration, getFormattedDate, getTimeFromDateTime } from "@/lib/utils";
 import { addBooking } from "@/services/api/bookingsApi";
+import NavBar from "@/components/NavBar";
+import Footer from "@/components/Footer";
 
 // Mock flight data - in a real app this would come from a previous selection or API
 const flightData = {
@@ -296,6 +298,7 @@ const BookingConfirmation: React.FC = () => {
   const priceBreakdown = calculateTotalPrice();
 
   return (
+    <><NavBar/>
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-blue-100 py-12 px-4 sm:px-6 lg:px-8 animate-fade-in">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center justify-center mb-8">
@@ -309,19 +312,19 @@ const BookingConfirmation: React.FC = () => {
               </div>
               <div className="flex justify-between">
                 <div className={`flex flex-col items-center ${step >= 1 ? 'text-booking-accent' : 'text-gray-400'}`}>
-                  <div className={`flex items-center justify-center w-10 h-10 rounded-full mb-2 ${step >= 1 ? 'bg-booking-accent text-white' : 'bg-gray-200'}`}>
+                  <div className={`flex items-center justify-center w-10 h-10 rounded-full mb-2 ${step >= 1 ? 'bg-green text-white' : 'bg-gray-200'}`}>
                     <User size={20} />
                   </div>
                   <span className="text-sm font-medium">Passengers</span>
                 </div>
                 <div className={`flex flex-col items-center ${step >= 2 ? 'text-booking-accent' : 'text-gray-400'}`}>
-                  <div className={`flex items-center justify-center w-10 h-10 rounded-full mb-2 ${step >= 2 ? 'bg-booking-accent text-white' : 'bg-gray-200'}`}>
+                  <div className={`flex items-center justify-center w-10 h-10 rounded-full mb-2 ${step >= 2 ? 'bg-green text-white' : 'bg-gray-200'}`}>
                     <CreditCard size={20} />
                   </div>
                   <span className="text-sm font-medium">Payment</span>
                 </div>
                 <div className={`flex flex-col items-center ${step >= 3 ? 'text-booking-accent' : 'text-gray-400'}`}>
-                  <div className={`flex items-center justify-center w-10 h-10 rounded-full mb-2 ${step >= 3 ? 'bg-booking-accent text-white' : 'bg-gray-200'}`}>
+                  <div className={`flex items-center justify-center w-10 h-10 rounded-full mb-2 ${step >= 3 ? 'bg-green text-white' : 'bg-gray-200'}`}>
                     <Check size={20} />
                   </div>
                   <span className="text-sm font-medium">Confirmation</span>
@@ -550,7 +553,7 @@ const BookingConfirmation: React.FC = () => {
             <div className="flex justify-end">
               <Button 
                 onClick={handleContinue}
-                className="px-8 py-6 text-base bg-booking-accent hover:bg-blue-700 transition-all-200"
+                className="px-8 py-6 text-base bg-blue-700 hover:bg-blue-700 transition-all-200"
               >
                 Continue to Payment
                 <ChevronRight size={18} className="ml-2" />
@@ -678,7 +681,7 @@ const BookingConfirmation: React.FC = () => {
                     <Button 
                       onClick={handleConfirmPayment}
                       disabled={isProcessingPayment}
-                      className="w-full mt-6 bg-booking-accent hover:bg-blue-700 py-6 text-base transition-all-200"
+                      className="w-full mt-6 bg-blue-700 hover:bg-blue-700 py-6 text-base transition-all-200"
                     >
                       {isProcessingPayment ? (
                         <>
@@ -735,6 +738,7 @@ const BookingConfirmation: React.FC = () => {
         )}
       </div>
     </div>
+    <Footer/></>
   );
 };
 
