@@ -56,7 +56,14 @@ const Authentication = () => {
     });
   
     if (error) {
+      toast({
+        title: "Error",
+        description: String(error),
+        variant: "destructive"
+      });
+      setIsSubmitting(false)
       return { error };
+
     } else {
        navigate('/')
        console.log("logged in"); // Return the user object or any other data you need
@@ -80,7 +87,12 @@ const Authentication = () => {
       );
 
       if (error) {
-        throw error; // If there's an error, throw it to handle
+        toast({
+          title: "Error",
+          description: String(error),
+          variant: "destructive"
+        });
+        throw error;
       }
 
       // console.log('User registered successfully:');

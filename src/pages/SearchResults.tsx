@@ -29,6 +29,7 @@ const SearchResults = () => {
   const params = new URLSearchParams(location.search);
   const passengers = params.get('passengers');
   const tripType = params.get('tripType');
+  const cabinClass = params.get('cabinClass')
   const [selectedDeparture, setSelectedDeparture] = useState<number | null>(null);
   const [selectedReturn, setSelectedReturn] = useState<number | null>(null);
 
@@ -54,6 +55,7 @@ const SearchResults = () => {
       const destinationCode = params.get('destination');
       const departureDate = params.get('departureDate');
       const returnDate = params.get('returnDate');
+      
 
       setLoading(true);
 
@@ -156,7 +158,7 @@ const SearchResults = () => {
 
   const handleSelectFlight = (flight) =>{
     if(flight.id && passengers){
-      navigate(`/booking?tripType=${tripType}&tripone=${flight.id}&passengers=${passengers}`)
+      navigate(`/booking?tripType=${tripType}&tripone=${flight.id}&passengers=${passengers}&cabinClass=${cabinClass}`)
     }
   };
 
@@ -471,7 +473,7 @@ const SearchResults = () => {
               )}
              {tripType == 'roundTrip' && ( <div className='flex justify-end mt-4'><Button
                 variant="outline"
-                onClick={() => navigate(`/booking?tripType=${tripType}&tripone=${selectedDeparture}&triptwo=${selectedReturn}&passengers=${passengers}`)}
+                onClick={() => navigate(`/booking?tripType=${tripType}&tripone=${selectedDeparture}&triptwo=${selectedReturn}&passengers=${passengers}&cabinClass=${cabinClass}`)}
                 size="sm"
                 disabled={!isContinueEnabled}
           

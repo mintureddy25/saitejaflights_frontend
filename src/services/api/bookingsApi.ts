@@ -53,3 +53,12 @@ export const getBooking = async (id: number) => {
     }
   };
 
+  export const cancelBooking = async (id: number) => {
+    try {
+      const response = await instance.patch(`/bookings/${id}/cancel`);
+      return response.data;
+    } catch (error) {
+      console.error('Error creating booking:', error);
+      throw error;
+    }
+  };

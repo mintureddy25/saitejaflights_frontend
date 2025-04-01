@@ -66,6 +66,7 @@ const BookingConfirmation: React.FC = () => {
   const [trips, setTrips] = useState<any>();
   const params = new URLSearchParams(location.search);
   const noOfPassengers = params.get('passengers');
+  const bookingType = params.get('cabinClass');
   const [bookingDetails, setBookingDetails] = useState<BookingInfo >({email:"", phone:""});
   const [bookingId, setBookingId] = useState<number>();
 
@@ -194,7 +195,8 @@ const BookingConfirmation: React.FC = () => {
     // Validate passenger info
     const isPassengerInfoComplete = passengers.every(passenger => 
       passenger.firstName && 
-      passenger.lastName
+      passenger.lastName &&
+      passenger.dateOfBirth
     );
     //console.log("bool", bookingDetails.email, bookingDetails.phone)
     
@@ -245,6 +247,7 @@ const BookingConfirmation: React.FC = () => {
       no_of_passengers: passengers.length,
       passengers,
       payment_mode: 'card',
+      booking_type: bookingType
 
     };
     
