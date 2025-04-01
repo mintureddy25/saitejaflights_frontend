@@ -32,6 +32,7 @@ const SearchResults = () => {
   const cabinClass = params.get('cabinClass')
   const [selectedDeparture, setSelectedDeparture] = useState<number | null>(null);
   const [selectedReturn, setSelectedReturn] = useState<number | null>(null);
+  const departureDate = params.get('departureDate');
 
   // Handle change for departure flights
   const handleDepartureChange = (id: number) => {
@@ -63,7 +64,7 @@ const SearchResults = () => {
         const { data, error } = await supabase
           .from('trips')
           .select(
-            'id, flight_id(id, flight_number, airline_id(id, name)), departure, arrival, origin (id, name), destination (id, name), available_seats, passengers, price, economy_seats, premium_economy_seats, business_seats, first_seats'
+            'id, flight_id(id, flight_number, airline_id(id, name)), departure, arrival, origin (id, name, code), destination (id, name, code), available_seats, passengers, price, economy_seats, premium_economy_seats, business_seats, first_seats'
           )
           .eq('origin', originCode)
           .eq('destination', destinationCode)
@@ -81,7 +82,9 @@ const SearchResults = () => {
             arrivalTime: getTimeFromDateTime(flight.arrival),
             duration: calculateDuration(flight.departure, flight.arrival), // You might need to calculate duration based on flight times
             origin: flight.origin.name,
+            originCode: flight.origin.code,
             destination: flight.destination.name,
+            destinationCode: flight.destination.code,
             price: flight.price,
             stops: 0, // Assuming no stops data in Supabase, you can calculate based on flight information
             availableSeats: flight.available_seats,
@@ -172,15 +175,15 @@ const SearchResults = () => {
           <div className="bg-blue-50 rounded-lg p-4 mb-6">
             <div className="flex flex-wrap items-center justify-between">
               <div className="flex items-center mb-2 md:mb-0">
-                <span className="font-semibold">JFK</span>
+                <span className="font-semibold">{filteredFlights[0]?.originCode}</span>
                 <ArrowRight size={18} className="mx-2" />
-                <span className="font-semibold">BOS</span>
+                <span className="font-semibold">{filteredFlights[0]?.destinationCode}</span>
                 <span className="mx-2 text-muted-foreground">•</span>
-                <span>Nov 15, 2023</span>
+                <span>{departureDate}</span>
                 <span className="mx-2 text-muted-foreground">•</span>
-                <span>1 Passenger</span>
+                <span>{passengers}</span>
                 <span className="mx-2 text-muted-foreground">•</span>
-                <span>Economy</span>
+                <span>{cabinClass}</span>
               </div>
               <Button
                 variant="outline"

@@ -727,7 +727,7 @@ const BookingConfirmation: React.FC = () => {
                 </p>
                 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Button variant="outline" className="px-8">
+                  <Button onClick={()=>navigate(`/bookings/${bookingId}`)}variant="outline" className="px-8">
                     View Booking
                   </Button>
                   
